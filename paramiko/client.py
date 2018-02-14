@@ -26,7 +26,7 @@ import inspect
 import os
 import socket
 import warnings
-from errno import ECONNREFUSED, EHOSTUNREACH
+from errno import EACCES, ECONNREFUSED, EHOSTUNREACH
 
 from paramiko.agent import Agent
 from paramiko.common import DEBUG
@@ -341,7 +341,7 @@ class SSHClient (ClosingContextManager):
                 except socket.error as e:
                     # Raise anything that isn't a straight up connection error
                     # (such as a resolution error)
-                    if e.errno not in (ECONNREFUSED, EHOSTUNREACH):
+                    if e.errno not in (EACCES, ECONNREFUSED, EHOSTUNREACH):
                         raise
                     # Capture anything else so we know how the run looks once
                     # iteration is complete. Retain info about which attempt
